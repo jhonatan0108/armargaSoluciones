@@ -49,22 +49,22 @@
      margin: 0 
 }
  h1 {
-     font-size: 24px 
+     font-size: 19px 
 }
  h2 {
-     font-size: 22px 
+     font-size: 17px 
 }
  h3 {
-     font-size: 18px 
+     font-size: 15px 
 }
  h4 {
-     font-size: 16px 
+     font-size: 13px 
 }
  h5 {
-     font-size: 14px 
+     font-size: 11px 
 }
  h6 {
-     font-size: 13px 
+     font-size: 9px 
 }
  *, *::after, *::before {
      -webkit-box-sizing: border-box;
@@ -858,7 +858,7 @@
      text-transform: uppercase;
 }
 
- .main-menu ul>li a:hover {    color: #f4b328;}
+ .main-menu ul>li a:hover {color: #f4b328;}
  .main-menu ul li:last-child a {
      padding-right: 0;
 }
@@ -874,12 +874,12 @@
      position: relative;
      border-bottom: solid #eee 1px;
 }
- .main-menu ul>li .sub-down li a::before {
+ .main-menu ul>li .sub-down li a ::before {
 }
  .main-menu ul>li .sub-down li a:hover {
      color: #111111;
 }
- .main-menu ul>li .sub-down li a:hover::before {
+ .main-menu ul>li .sub-down li a:hover ::before {
 }
  .main-menu ul li:first-child {
      margin-left: 0;
@@ -937,7 +937,7 @@
      vertical-align: middle;
      margin: 22px 0px;
 }
- .main-menu ul>li:nth-child (6) {
+ .main-menu ul>li:nth-child {
      padding-right: 0px;
 }
  .nav>li {
@@ -1008,7 +1008,6 @@ background-repeat: no-repeat;
 background: #0f052f;
 margin: 0 !important;
 padding: 30px 36px 30px 16px;
-float: right;
 margin-right: 110px !important;
 width: 24%;
 }
@@ -1351,7 +1350,6 @@ display: inline-block;
 text-align: center;
 text-transform: uppercase;
 border-radius: 30px;
-float: right;
 margin-top: 20px;
 }
  .box_text a:hover {
@@ -1387,7 +1385,6 @@ display: inline-block;
 text-align: center;
 text-transform: uppercase;
 border-radius: 30px;
-float: left;
 margin-top: 20px;
 }
  .make_text a:hover {
