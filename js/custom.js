@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------
-    File Name: custom.js
+	File Name: custom.js
 ---------------------------------------------------------------------*/
 
 $(function () {
@@ -131,7 +131,7 @@ $(function () {
 	});
 
 
-	
+
 	/* Scroll to Top
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
@@ -151,55 +151,72 @@ $(function () {
 
 	/* Contact-form
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
-	$.validator.setDefaults({
-		submitHandler: function () {
-			alert("submitted!");
+
+	$("#registrationForm").validator().on("submit", function (event) {
+		if (event.isDefaultPrevented()) {
+			// handle the invalid form...
+			rformError();
+			rsubmitMSG(false, "Por favor ingrese todos los campos!");
+		} else {
+			// everything looks good!
+			event.preventDefault();
+			rsubmitForm();
 		}
 	});
 
-	$(document).ready(function () {
-		$("#contact-form").validate({
-			rules: {
-				firstname: "required",
-				email: {
-					required: true,
-					email: true
-				},
-				lastname: "required",
-				message: "required",
-				agree: "required"
-			},
-			messages: {
-				firstname: "Please enter your firstname",
-				email: "Please enter a valid email address",
-				lastname: "Please enter your lastname",
-				username: {
-					required: "Please enter a username",
-					minlength: "Your username must consist of at least 2 characters"
-				},
-				message: "Please enter your Message",
-				agree: "Please accept our policy"
-			},
-			errorElement: "div",
-			errorPlacement: function (error, element) {
-				// Add the `help-block` class to the error element
-				error.addClass("help-block");
+	function rsubmitForm() {
+		// initiate variables with form content
+		var name = $("#rname").val();
+		var email = $("#remail").val();
+		var phone = $("#rphone").val();
+		var Description = $("#rdescripcion").val();
+		var tokenGoogle = $('#google-token').val();
+		var terms = $("#rterms").val();
 
-				if (element.prop("type") === "checkbox") {
-					error.insertAfter(element.parent("input"));
+		$.ajax({
+			type: "POST",
+			url: "Bussines/php/contact-form.php",
+			data: "name=" + name + "&email=" + email + "&phone=" + phone + "&terms=" + terms + "&descripcion=" + Description + "&tokengoogle=" + tokenGoogle,
+			success: function (text) {
+				console.log(text);
+				var dat = JSON.parse(text);
+				if (dat.status) {
+					rformSuccess();
 				} else {
-					error.insertAfter(element);
+					rformError();
+					rsubmitMSG(false, dat.text);
 				}
-			},
-			highlight: function (element, errorClass, validClass) {
-				$(element).parents(".col-md-4, .col-md-12").addClass("has-error").removeClass("has-success");
-			},
-			unhighlight: function (element, errorClass, validClass) {
-				$(element).parents(".col-md-4, .col-md-12").addClass("has-success").removeClass("has-error");
 			}
 		});
-	});
+	}
 
+	function rformSuccess() {
+		$("#registrationForm")[0].reset();
+		rsubmitMSG(true, "Información enviada con exito, te llegará una confirmación al correo electronico, recuerda revisar la carpeta de correo no deseado!");
+		$("input").removeClass('notEmpty'); // resets the field label after submission
+	}
+
+	function rformError() {
+		$("#registrationForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+			$(this).removeClass();
+		});
+	}
+
+	function rsubmitMSG(valid, msg) {
+		if (valid) {
+			var msgClasses = "h3 text-center tada animated";
+			setTimeout(function () {
+				location.reload();
+			}, 10000);
+		} else {
+			var msgClasses = "h3 text-center";
+		}
+
+		$("#rmsgSubmit").removeClass().addClass(msgClasses).text(msg);
+		setTimeout(function () {
+			$("#rmsgSubmit").removeClass().addClass(msgClasses).text("");
+		}, 20000);
+	}
 	/* heroslider
 	-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
 
@@ -367,6 +384,7 @@ $(function () {
 	$('#blogCarousel').carousel({
 		interval: 5000
 	});
+
 
 
 });
